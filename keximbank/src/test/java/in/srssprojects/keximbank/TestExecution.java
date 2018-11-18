@@ -6,7 +6,7 @@ public class TestExecution extends BaseClass{
 	BankHomePage bankHomePageObj;
 	AdminHomePage adminHomePageObj;
 	BranchDetailsPage branchDetailsPageObj;
-	
+	BranchCreationPage branchCreationPageObj; 
 	@Test(priority = 0)
 	public void launch() {
 		bankHomePageObj = launchBrowser(BrowserName.chrome, "http://srssprojects.in");
@@ -28,6 +28,21 @@ public class TestExecution extends BaseClass{
 		branchDetailsPageObj.selectCity("LONDON");
 		branchDetailsPageObj.clickSearch();
 	}
+	
+	@Test(priority = 3)
+	public void branchCreation() {
+	   branchCreationPageObj = branchDetailsPageObj.clickNewBranch();
+	   branchCreationPageObj.branchName("TNAGAR");
+	   branchCreationPageObj.addressOne("roadno1");
+	   branchCreationPageObj.zipCode("34567");
+	   branchCreationPageObj.country("INDIA");
+	   branchCreationPageObj.state("Tamil Nadu");
+	   branchCreationPageObj.city("MADHURAI");
+	   branchCreationPageObj.submit();
+	   
+	}
+	
+	
 	
 	@Test(priority = 30)
 	public void tearDown() {
