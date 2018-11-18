@@ -1,0 +1,21 @@
+Create JAVA_HOME environment variable
+My Computer -> right click on My PC -> properties
+->Advanced system settings -> environmental variables ->
+In System Variables ->click new -> enter variable name as "JAVA_HOME"
+-> varaible value as "Path of the Java installation folder" -> click ok
+
+Edit Path variable
+In System Variables -> select Path variable -> click edit -> click new->
+add "path of the bin folder of Java Installation folder" -> click ok -> click ok
+
+Verify Java Installation
+go to command prompt and type following command
+java -version then click enter
+
+Changing FontSize in Eclipse
+Window menu -> preferences -> Expand General - Expand Appearance -> click Colours and Fonts
+-> In colours and fonts window Expand Basic -> click FontSize -> In new window change font size to 16 and close that window -> In Preferences window click on Apply and Close.
+
+Changing Theme to dart in Eclipse
+Window menu ->preferences -> Expand General -> click Appearance -> In appearance window -> 
+select dark in theme dropdown list -> click apply and close.

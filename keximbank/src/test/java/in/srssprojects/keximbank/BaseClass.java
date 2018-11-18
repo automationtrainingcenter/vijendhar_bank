@@ -1,6 +1,7 @@
 package in.srssprojects.keximbank;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -21,7 +22,7 @@ public class BaseClass {
 		return System.getProperty("user.dir")+File.separator+folderName+File.separator+fileName;
 	}
 	
-	public void launchBrowser(BrowserName name, String url) {
+	public BankHomePage launchBrowser(BrowserName name, String url) {
 		switch (name) {
 		case chrome:
 			System.setProperty("webdriver.chrome.driver",getFilePath("resources", "chromedriver.exe"));
@@ -36,6 +37,8 @@ public class BaseClass {
 		}
 		driver.get(url);
 		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		return new BankHomePage(driver);
 	}
 	
 	public void closeBrowser() {
