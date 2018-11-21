@@ -1,5 +1,6 @@
 package in.srssprojects.keximbank;
 
+import org.openqa.selenium.Alert;
 import org.testng.annotations.Test;
 
 public class TestExecution extends BaseClass{
@@ -7,6 +8,11 @@ public class TestExecution extends BaseClass{
 	AdminHomePage adminHomePageObj;
 	BranchDetailsPage branchDetailsPageObj;
 	BranchCreationPage branchCreationPageObj; 
+	RoleDetailsPage roleDetailsPageObj;
+	RoleCreationPage roleCreationPageObj;
+	EmployeeDetailsPage employeeDetailsPageObj;
+	EmployeeCreationPage employeeCreationPageObj;
+	Alert alert=driver.switchTo().alert();
 	@Test(priority = 0)
 	public void launch() {
 		bankHomePageObj = launchBrowser(BrowserName.chrome, "http://srssprojects.in");
@@ -32,21 +38,53 @@ public class TestExecution extends BaseClass{
 	@Test(priority = 3)
 	public void branchCreation() {
 	   branchCreationPageObj = branchDetailsPageObj.clickNewBranch();
-	   branchCreationPageObj.branchName("TNAGAR");
-	   branchCreationPageObj.addressOne("roadno1");
+	   branchCreationPageObj.branchName("TNAGAR2");
+	   branchCreationPageObj.addressOne("roadno2");
 	   branchCreationPageObj.zipCode("34567");
 	   branchCreationPageObj.country("INDIA");
 	   branchCreationPageObj.state("Tamil Nadu");
 	   branchCreationPageObj.city("MADHURAI");
 	   branchCreationPageObj.submit();
-	   
+	   alert.accept();
+	   	}
+ /**
+	@Test(priority=4)
+	public void roleDetails() {
+		roleDetailsPageObj = branchCreationPageObj.home();
+		
 	}
 	
-	
-	
-	@Test(priority = 30)
-	public void tearDown() {
-		closeBrowser();
+	@Test(priority=5)
+	public void roleCreation() {
+		roleCreationPageObj = roleDetailsPageObj.roleClick();
+		roleCreationPageObj.fillRoleName("BankkManagr1");
+		roleCreationPageObj.fillRoleDesc("mangerialactivities1");
+		roleCreationPageObj.selectRoleType("E");
+		roleCreationPageObj.roleSubmit();
+		alert.accept();
+		
 	}
-
+	
+	@Test(priority=6)
+	public void empDetails() {
+		employeeDetailsPageObj = roleCreationPageObj.empClick(); 
+		
+	}
+	
+	@Test(priority=7)
+	public void empCreation() {
+		employeeCreationPageObj=employeeDetailsPageObj.employeeClick();
+		employeeCreationPageObj.fillEmpName("micheal");
+		employeeCreationPageObj.fillEmpPwd("password");
+		employeeCreationPageObj.selectEmpBranch("TNAGAR2");
+		employeeCreationPageObj.selectEmpRole("BankkManagr1");
+		employeeCreationPageObj.empClick();
+		alert.accept();
+	}
+	
+	//@Test(priority = 30)
+	//public void tearDown() {
+		//closeBrowser();
+	//}
+**/
 }

@@ -1,9 +1,11 @@
 package in.srssprojects.keximbank;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 
 public class BranchCreationPage {
@@ -43,6 +45,11 @@ public class BranchCreationPage {
 	//submit 
 	@FindBy(how=How.ID_OR_NAME,using="btn_insert")
 	private WebElement submit;
+	
+	//roles 
+	@FindBy(how = How.XPATH, using = "//img[@src='images/Roles_but.jpg']")
+	private WebElement roles;
+	
 	// enter branch name
 	public void branchName(String branchName) {
 		this.branchName.sendKeys(branchName);
@@ -74,5 +81,10 @@ public class BranchCreationPage {
 	//clickonsubmit
 	public void submit() {
 		this.submit.click();
+		
 	}
-}
+	
+	public RoleDetailsPage home() {
+		this.roles.click();
+		return PageFactory.initElements(driver, RoleDetailsPage.class);
+}}
