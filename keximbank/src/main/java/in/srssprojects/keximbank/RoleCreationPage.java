@@ -1,5 +1,6 @@
 package in.srssprojects.keximbank;
 
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -33,10 +34,12 @@ public class RoleCreationPage {
 	@FindBy(how=How.ID_OR_NAME,using="btninsert")
 	private WebElement roleSubmit;
 	
-	//Employees
-	@FindBy(how=How.XPATH,using="//img[@src='images/emp_btn.jpg']")
-    private WebElement employees;
+	@FindBy(how=How.ID_OR_NAME,using="Btn_Reset")
+	private WebElement reset;
 	
+	
+	@FindBy(how=How.ID_OR_NAME,using="Btn_cancel")
+	private WebElement cancel;
 	
 	//fillrolename
 	public void fillRoleName(String roleName) {
@@ -54,17 +57,19 @@ public class RoleCreationPage {
 		
 	}
 	
-	public void roleSubmit() {
+	public Alert roleSubmit() {
 		this.roleSubmit.click();
+		return driver.switchTo().alert();
 	}
 
-	public EmployeeDetailsPage empClick() {
-		
-		this.employees.click();
-		
-		return PageFactory.initElements(driver,EmployeeDetailsPage.class);
+	public void clickReset() {
+		this.reset.click();
 	}
 	
+	public RoleDetailsPage clickCancel() {
+		this.cancel.click();
+		return PageFactory.initElements(driver, RoleDetailsPage.class);
+	}
 }
 
 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="basic suite">
+	<test name="basic suite">
+		<classes>
+			<class name="in.srssprojects.keximbank.TestExecution">
+				<methods>
+					<include name="launch"></include>
+					<include name="login2"></include>
+					<include name="updateBranch"></include>
+					<include name="deleteBranch"></include>
+					<include name="tearDown"></include>
+				</methods>
+			</class>
+		</classes>
+	</test>
+</suite>
