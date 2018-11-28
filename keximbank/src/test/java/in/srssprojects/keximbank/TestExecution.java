@@ -213,8 +213,10 @@ public class TestExecution extends BaseClass {
 		branchDetailsPageObj = adminHomePageObj.clickBranches();
 		branchUpdationPageObj = branchDetailsPageObj.clickEditInTable("103");
 		branchUpdationPageObj.updateBrnachName("newLingampallyBranch");
+		alert = branchUpdationPageObj.updateBranchClick();
+		System.out.println(alert.getText());
 		Thread.sleep(2000);
-
+        alert.accept();
 	}
 
 	@Test(priority = 17)

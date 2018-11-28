@@ -84,7 +84,7 @@ public class BranchDetailsPage {
 		return PageFactory.initElements(driver, BranchUpdationPage.class);
 	}
 
-//	click on edit button in table return BranchUpdationPage
+//	click on delete button in table return BranchUpdationPage
 	public Alert clickDeleteInTable(String branchId) {
 		TableHelper.handleTable(this.branchTable, branchId, "delete");
 		return driver.switchTo().alert();
