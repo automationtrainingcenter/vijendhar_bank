@@ -13,6 +13,8 @@ public class TestExecution extends BaseClass {
 	EmployeeDetailsPage employeeDetailsPageObj;
 	EmployeeCreationPage employeeCreationPageObj;
 	BranchUpdationPage branchUpdationPageObj;
+	RoleUpdationPage roleUpdationPageObj;
+	EmployeeUpdationPage employeeUpdationPageObj; 
 	Alert alert;
 
 	@Test(priority = 0)
@@ -227,6 +229,48 @@ public class TestExecution extends BaseClass {
 		Thread.sleep(2000);
 		alert.dismiss();
 	}
+	
+	@Test(priority = 18)
+	public void updateRole() throws InterruptedException {
+		roleDetailsPageObj = adminHomePageObj.clickRoles();
+		roleUpdationPageObj = roleDetailsPageObj.clickEditInTable("18");
+		roleUpdationPageObj.updateRoleName("mkjkj");
+		alert = roleUpdationPageObj.updateRoleClick();
+		System.out.println(alert.getText());
+		Thread.sleep(2000);
+        alert.accept();
+	}
+
+	@Test(priority = 19)
+	public void deleteRole() throws InterruptedException {
+		roleDetailsPageObj = adminHomePageObj.clickRoles();
+		alert = roleDetailsPageObj.clickDeleteInTable("17");
+		System.out.println(alert.getText());
+		Thread.sleep(2000);
+		alert.dismiss();
+	}
+	
+	
+	@Test(priority = 20)
+	public void updateEmployee() throws InterruptedException {
+		employeeDetailsPageObj = adminHomePageObj.clickEmployees();
+		employeeUpdationPageObj = employeeDetailsPageObj.clickEditInTable("6462");
+		employeeUpdationPageObj.updateEmpName("asdffds");
+		alert = employeeUpdationPageObj.updateEmpClick();
+		System.out.println(alert.getText());
+		Thread.sleep(2000);
+        alert.accept();
+	}
+
+	@Test(priority = 21)
+	public void deleteEmployee() throws InterruptedException {
+		employeeDetailsPageObj = adminHomePageObj.clickEmployees();
+		alert = employeeDetailsPageObj.clickDeleteInTable("6462");
+		System.out.println(alert.getText());
+		Thread.sleep(2000);
+		alert.accept();
+	}
+	
 
 	@Test(priority = 30)
 	public void tearDown() {

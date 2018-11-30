@@ -34,8 +34,8 @@ public class AdminHomePage {
 	@FindBy(how = How.XPATH, using = "//img[@src='images/Roles_but.jpg']")
 	private WebElement roles;
 
-//	employees
-	@FindBy(how = How.XPATH, using = "//img[@src='images/Users_but.jpg']")
+//	employees images/emp_btn.jpg
+	@FindBy(how = How.XPATH, using = "//img[@src='images/emp_btn.jpg']")
 	private WebElement employees;
 
 //	users

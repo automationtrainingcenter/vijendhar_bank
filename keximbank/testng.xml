@@ -7,8 +7,8 @@
 				<methods>
 					<include name="launch"></include>
 					<include name="login2"></include>
-					<include name="updateBranch"></include>
-					<include name="deleteBranch"></include>
+				   <include name="updateEmployee"></include>
+					<include name="deleteEmployee"></include>
 					<include name="tearDown"></include>
 				</methods>
 			</class>

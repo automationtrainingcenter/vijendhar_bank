@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [basic suite]">
+  <test thread-count="5" name="basic suite(failed)">
+    <classes>
+      <class name="in.srssprojects.keximbank.TestExecution">
+        <methods>
+          <include name="deleteEmployee"/>
+        </methods>
+      </class> <!-- in.srssprojects.keximbank.TestExecution -->
+    </classes>
+  </test> <!-- basic suite(failed) -->
+</suite> <!-- Failed suite [basic suite] -->
