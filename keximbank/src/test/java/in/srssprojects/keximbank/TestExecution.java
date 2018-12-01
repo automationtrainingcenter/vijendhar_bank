@@ -25,15 +25,15 @@ public class TestExecution extends BaseClass {
 
 	@Test(priority = 1)
 	public void login2() {
-		bankHomePageObj.fillUserName("Admin");
-		bankHomePageObj.fillPassword("Admin");
+		bankHomePageObj.fillUserName(SampleData.username);
+		bankHomePageObj.fillPassword(SampleData.password);
 		adminHomePageObj = bankHomePageObj.clickLogin();
 	}
 
 	@Test(priority = 1)
 	public void login1WithInvalidData() {
-		bankHomePageObj.fillUserName("Admin");
-		bankHomePageObj.fillPassword("adminnnn");
+		bankHomePageObj.fillUserName(SampleData.username);
+		bankHomePageObj.fillPassword(SampleData.invalidPassword);
 		adminHomePageObj = bankHomePageObj.clickLogin();
 		alert = driver.switchTo().alert();
 		System.out.println(alert.getText());
@@ -43,16 +43,16 @@ public class TestExecution extends BaseClass {
 	@Test(priority = 2)
 	public void branchSearch() {
 		branchDetailsPageObj = adminHomePageObj.clickBranches();
-		branchDetailsPageObj.selectCountry("UK");
-		branchDetailsPageObj.selectState("England");
-		branchDetailsPageObj.selectCity("LONDON");
+		branchDetailsPageObj.selectCountry(SampleData.bs_country);
+		branchDetailsPageObj.selectState(SampleData.bs_state);
+		branchDetailsPageObj.selectCity(SampleData.bs_city);
 		branchDetailsPageObj.clickSearch();
 	}
 
 	@Test(priority = 3)
 	public void branchCreation() {
 		branchCreationPageObj = branchDetailsPageObj.clickNewBranch();
-		branchCreationPageObj.branchName("TNAGAR2");
+		branchCreationPageObj.branchName(SampleData.bc_branchName);
 		branchCreationPageObj.addressOne("roadno2");
 		branchCreationPageObj.zipCode("34567");
 		branchCreationPageObj.country("INDIA");
@@ -213,8 +213,8 @@ public class TestExecution extends BaseClass {
 	@Test(priority = 16)
 	public void updateBranch() throws InterruptedException {
 		branchDetailsPageObj = adminHomePageObj.clickBranches();
-		branchUpdationPageObj = branchDetailsPageObj.clickEditInTable("103");
-		branchUpdationPageObj.updateBrnachName("newLingampallyBranch");
+		branchUpdationPageObj = branchDetailsPageObj.clickEditInTable("333878");
+		branchUpdationPageObj.updateBrnachName("newLingampallyBranchCHH");
 		alert = branchUpdationPageObj.updateBranchClick();
 		System.out.println(alert.getText());
 		Thread.sleep(2000);
@@ -233,7 +233,7 @@ public class TestExecution extends BaseClass {
 	@Test(priority = 18)
 	public void updateRole() throws InterruptedException {
 		roleDetailsPageObj = adminHomePageObj.clickRoles();
-		roleUpdationPageObj = roleDetailsPageObj.clickEditInTable("18");
+		roleUpdationPageObj = roleDetailsPageObj.clickEditInTable("18999");
 		roleUpdationPageObj.updateRoleName("mkjkj");
 		alert = roleUpdationPageObj.updateRoleClick();
 		System.out.println(alert.getText());
@@ -269,6 +269,9 @@ public class TestExecution extends BaseClass {
 		System.out.println(alert.getText());
 		Thread.sleep(2000);
 		alert.accept();
+		System.out.println(driver.switchTo().alert().getText());
+		driver.switchTo().alert().accept();
+		
 	}
 	
 
