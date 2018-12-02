@@ -18,7 +18,7 @@ public class SampleData {
 	public static String bc_branchAddress = "Tangar";
 	public static String bc_branchZipcode = "23456";
 	public static String bc_branchCountry = "INDIA";
-	public static String bc_branchState = "TAMILNADU";
+	public static String bc_branchState = "Tamil Nadu";
 	public static String bc_branchCity = "MADHURAI";
 	
 //role creation

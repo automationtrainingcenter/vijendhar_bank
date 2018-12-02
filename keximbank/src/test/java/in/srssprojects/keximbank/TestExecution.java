@@ -1,6 +1,7 @@
 package in.srssprojects.keximbank;
 
 import org.openqa.selenium.Alert;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class TestExecution extends BaseClass {
@@ -14,98 +15,98 @@ public class TestExecution extends BaseClass {
 	EmployeeCreationPage employeeCreationPageObj;
 	BranchUpdationPage branchUpdationPageObj;
 	RoleUpdationPage roleUpdationPageObj;
-	EmployeeUpdationPage employeeUpdationPageObj; 
+	EmployeeUpdationPage employeeUpdationPageObj;
 	Alert alert;
-
-	@Test(priority = 0)
-	public void launch() {
-		bankHomePageObj = launchBrowser(BrowserName.chrome, "http://srssprojects.in");
-
+	String alertText;
+	public void fillBranchCrationForm(String bname, String address1, String zipcode, String country, String state,
+			String city) {
+		branchCreationPageObj.branchName(bname);
+		branchCreationPageObj.addressOne(address1);
+		branchCreationPageObj.zipCode(zipcode);
+		branchCreationPageObj.country(country);
+		branchCreationPageObj.state(state);
+		branchCreationPageObj.city(city);
+	}
+	
+	public String acceptAlert() {
+		alert = driver.switchTo().alert();
+		String alertText = alert.getText();
+		System.out.println(alertText);
+		alert.accept();
+		return alertText;
 	}
 
-	@Test(priority = 1)
+	@Test(priority = 1, groups = { "branch", "search", "create", "role", "createCancel", "reset", "employee", "cancel",
+			"invalid", "update", "delete" })
 	public void login2() {
 		bankHomePageObj.fillUserName(SampleData.username);
 		bankHomePageObj.fillPassword(SampleData.password);
 		adminHomePageObj = bankHomePageObj.clickLogin();
+		Assert.assertTrue(adminHomePageObj.validateLogin());
 	}
 
-	@Test(priority = 1)
+	@Test(priority = 1, enabled = false)
 	public void login1WithInvalidData() {
 		bankHomePageObj.fillUserName(SampleData.username);
 		bankHomePageObj.fillPassword(SampleData.invalidPassword);
 		adminHomePageObj = bankHomePageObj.clickLogin();
-		alert = driver.switchTo().alert();
-		System.out.println(alert.getText());
-		alert.accept();
+		alertText = acceptAlert();
+		Assert.assertTrue(alertText.contains("InCnorrect"));
 	}
 
-	@Test(priority = 2)
+	@Test(priority = 2, groups = { "branch", "search" })
 	public void branchSearch() {
 		branchDetailsPageObj = adminHomePageObj.clickBranches();
 		branchDetailsPageObj.selectCountry(SampleData.bs_country);
 		branchDetailsPageObj.selectState(SampleData.bs_state);
 		branchDetailsPageObj.selectCity(SampleData.bs_city);
 		branchDetailsPageObj.clickSearch();
+		
 	}
 
-	@Test(priority = 3)
+	@Test(priority = 3, groups = { "branch", "create" })
 	public void branchCreation() {
+		branchDetailsPageObj = adminHomePageObj.clickBranches();
 		branchCreationPageObj = branchDetailsPageObj.clickNewBranch();
-		branchCreationPageObj.branchName(SampleData.bc_branchName);
-		branchCreationPageObj.addressOne(SampleData.bc_branchAddress);
-		branchCreationPageObj.zipCode(SampleData.bc_branchZipcode);
-		branchCreationPageObj.country(SampleData.bc_branchCountry);
-		branchCreationPageObj.state(SampleData.bc_branchState);
-		branchCreationPageObj.city(SampleData.bc_branchCity);
-		alert = branchCreationPageObj.submit();
-		System.out.println(alert.getText());
-		alert.accept();
+		fillBranchCrationForm(SampleData.bc_branchName, SampleData.bc_branchAddress, SampleData.bc_branchZipcode,
+				SampleData.bc_branchCountry, SampleData.bc_branchState, SampleData.bc_branchCity);
+		alertText = acceptAlert();
+		Assert.assertTrue(alertText.contains("successfully"));
 	}
 
-	@Test(priority = 4)
+	@Test(priority = 4, groups = { "branch", "create", "invalid" })
 	public void branchCreationWithDuplicateData() {
+		branchDetailsPageObj = adminHomePageObj.clickBranches();
 		branchCreationPageObj = branchDetailsPageObj.clickNewBranch();
-		branchCreationPageObj.branchName(SampleData.bc_branchName);
-		branchCreationPageObj.addressOne(SampleData.bc_branchAddress);
-		branchCreationPageObj.zipCode(SampleData.bc_branchZipcode);
-		branchCreationPageObj.country(SampleData.bc_branchCountry);
-		branchCreationPageObj.state(SampleData.bc_branchState);
-		branchCreationPageObj.city(SampleData.bc_branchCity);
-		alert = branchCreationPageObj.submit();
-		System.out.println(alert.getText());
-		alert.accept();
+		fillBranchCrationForm(SampleData.bc_branchName, SampleData.bc_branchAddress, SampleData.bc_branchZipcode,
+				SampleData.bc_branchCountry, SampleData.bc_branchState, SampleData.bc_branchCity);
+		alertText = acceptAlert();
+		Assert.assertTrue(alertText.contains("already"));
 	}
 
-	@Test(priority = 5)
+	@Test(priority = 5, groups = { "branch", "create", "invalid" })
 	public void branchCreationWithBlankData() {
+		branchDetailsPageObj = adminHomePageObj.clickBranches();
 		branchCreationPageObj = branchDetailsPageObj.clickNewBranch();
-		alert = branchCreationPageObj.submit();
-		System.out.println(alert.getText());
-		alert.accept();
+		alertText = acceptAlert();
+		Assert.assertTrue(alertText.contains("fill"));
 	}
 
-	@Test(priority = 6)
+	@Test(priority = 6, groups = { "branch", "reset" })
 	public void branchCreationReset() {
+		branchDetailsPageObj = adminHomePageObj.clickBranches();
 		branchCreationPageObj = branchDetailsPageObj.clickNewBranch();
-		branchCreationPageObj.branchName(SampleData.bc_branchName);
-		branchCreationPageObj.addressOne(SampleData.bc_branchAddress);
-		branchCreationPageObj.zipCode(SampleData.bc_branchZipcode);
-		branchCreationPageObj.country(SampleData.bc_branchCountry);
-		branchCreationPageObj.state(SampleData.bc_branchState);
-		branchCreationPageObj.city(SampleData.bc_branchCity);
+		fillBranchCrationForm(SampleData.bc_branchName, SampleData.bc_branchAddress, SampleData.bc_branchZipcode,
+				SampleData.bc_branchCountry, SampleData.bc_branchState, SampleData.bc_branchCity);
 		branchCreationPageObj.clickReset();
+		
 	}
 
-	@Test(priority = 7)
+	@Test(priority = 7, groups = { "branch", "cancel" })
 	public void branchCreationCancel() {
+		branchDetailsPageObj = adminHomePageObj.clickBranches();
 		branchCreationPageObj = branchDetailsPageObj.clickNewBranch();
-		branchCreationPageObj.branchName(SampleData.bc_branchName);
-		branchCreationPageObj.addressOne(SampleData.bc_branchAddress);
-		branchCreationPageObj.zipCode(SampleData.bc_branchZipcode);
-		branchCreationPageObj.country(SampleData.bc_branchCountry);
-		branchCreationPageObj.state(SampleData.bc_branchState);
-		branchCreationPageObj.city(SampleData.bc_branchCity);
+//		fillBranchCrationForm(SampleData.bc_branchName, SampleData.bc_branchAddress, SampleData.bc_branchZipcode, SampleData.bc_branchCountry, SampleData.bc_branchState, SampleData.bc_branchCity);
 		branchCreationPageObj.clickCancel();
 	}
 
@@ -114,8 +115,9 @@ public class TestExecution extends BaseClass {
 		roleDetailsPageObj = branchCreationPageObj.home();
 	}
 
-	@Test(priority = 9)
+	@Test(priority = 9, groups = { "role", "create" })
 	public void roleCreation() {
+		roleDetailsPageObj = adminHomePageObj.clickRoles();
 		roleCreationPageObj = roleDetailsPageObj.roleClick();
 		roleCreationPageObj.fillRoleName(SampleData.rc_roleName);
 		roleCreationPageObj.fillRoleDesc(SampleData.rc_roleDesc);
@@ -126,8 +128,9 @@ public class TestExecution extends BaseClass {
 
 	}
 
-	@Test(priority = 10)
+	@Test(priority = 10, groups = { "role", "create", "invalid" })
 	public void roleCreationWithDuplicateData() {
+		roleDetailsPageObj = adminHomePageObj.clickRoles();
 		roleCreationPageObj = roleDetailsPageObj.roleClick();
 		roleCreationPageObj.fillRoleName(SampleData.rc_roleName);
 		roleCreationPageObj.fillRoleDesc(SampleData.rc_roleDesc);
@@ -137,16 +140,18 @@ public class TestExecution extends BaseClass {
 		alert.accept();
 	}
 
-	@Test(priority = 11)
+	@Test(priority = 11, groups = { "role", "create", "invalid" })
 	public void roleCreationWithBlankData() {
+		roleDetailsPageObj = adminHomePageObj.clickRoles();
 		roleCreationPageObj = roleDetailsPageObj.roleClick();
 		alert = roleCreationPageObj.roleSubmit();
 		System.out.println(alert.getText());
 		alert.accept();
 	}
 
-	@Test(priority = 12)
+	@Test(priority = 12, groups = { "role", "reset" })
 	public void roleCreationReset() {
+		roleDetailsPageObj = adminHomePageObj.clickRoles();
 		roleCreationPageObj = roleDetailsPageObj.roleClick();
 		roleCreationPageObj.fillRoleName(SampleData.rc_roleName);
 		roleCreationPageObj.fillRoleDesc(SampleData.rc_roleDesc);
@@ -154,16 +159,18 @@ public class TestExecution extends BaseClass {
 		roleCreationPageObj.clickReset();
 	}
 
-	@Test(priority = 10)
+	@Test(priority = 10, groups = { "role", "cancel" })
 	public void roleCreationCancel() {
+		roleDetailsPageObj = adminHomePageObj.clickRoles();
 		roleCreationPageObj = roleDetailsPageObj.roleClick();
 		roleCreationPageObj.fillRoleName(SampleData.rc_roleName);
 		roleCreationPageObj.clickCancel();
 
 	}
 
-	@Test(priority = 11)
+	@Test(priority = 11, groups = { "employee", "create" })
 	public void empCreation() {
+		employeeDetailsPageObj = adminHomePageObj.clickEmployees();
 		employeeCreationPageObj = employeeDetailsPageObj.employeeClick();
 		employeeCreationPageObj.fillEmpName(SampleData.ec_empName);
 		employeeCreationPageObj.fillEmpPwd(SampleData.ec_empPwd);
@@ -174,8 +181,9 @@ public class TestExecution extends BaseClass {
 		alert.accept();
 	}
 
-	@Test(priority = 12)
+	@Test(priority = 12, groups = { "employee", "create", "invalid" })
 	public void empCreationWithDuplicateData() {
+		employeeDetailsPageObj = adminHomePageObj.clickEmployees();
 		employeeCreationPageObj = employeeDetailsPageObj.employeeClick();
 		employeeCreationPageObj.fillEmpName(SampleData.ec_empName);
 		employeeCreationPageObj.fillEmpPwd(SampleData.ec_empPwd);
@@ -186,7 +194,7 @@ public class TestExecution extends BaseClass {
 		alert.accept();
 	}
 
-	@Test(priority = 13)
+	@Test(priority = 13, groups = { "employee", "create", "invalid" })
 	public void empCreationWithBlankData() {
 		employeeCreationPageObj = employeeDetailsPageObj.employeeClick();
 		alert = employeeCreationPageObj.empClick();
@@ -194,8 +202,9 @@ public class TestExecution extends BaseClass {
 		alert.accept();
 	}
 
-	@Test(priority = 14)
+	@Test(priority = 14, groups = { "employee", "reset" })
 	public void empCreationReset() {
+		employeeDetailsPageObj = adminHomePageObj.clickEmployees();
 		employeeCreationPageObj = employeeDetailsPageObj.employeeClick();
 		employeeCreationPageObj.fillEmpName(SampleData.ec_empName);
 		employeeCreationPageObj.fillEmpPwd(SampleData.ec_empPwd);
@@ -204,13 +213,14 @@ public class TestExecution extends BaseClass {
 		employeeCreationPageObj.clickReset();
 	}
 
-	@Test(priority = 15)
+	@Test(priority = 15, groups = { "employee", "cancel" })
 	public void empCreationCancel() {
+		employeeDetailsPageObj = adminHomePageObj.clickEmployees();
 		employeeCreationPageObj = employeeDetailsPageObj.employeeClick();
 		employeeCreationPageObj.clickCancel();
 	}
 
-	@Test(priority = 16)
+	@Test(priority = 16, groups = { "branch", "update" })
 	public void updateBranch() throws InterruptedException {
 		branchDetailsPageObj = adminHomePageObj.clickBranches();
 		branchUpdationPageObj = branchDetailsPageObj.clickEditInTable(SampleData.bu_branchId);
@@ -218,10 +228,10 @@ public class TestExecution extends BaseClass {
 		alert = branchUpdationPageObj.updateBranchClick();
 		System.out.println(alert.getText());
 		Thread.sleep(2000);
-        alert.accept();
+		alert.accept();
 	}
 
-	@Test(priority = 17)
+	@Test(priority = 17, groups = { "branch", "delete" })
 	public void deleteBranch() throws InterruptedException {
 		branchDetailsPageObj = adminHomePageObj.clickBranches();
 		alert = branchDetailsPageObj.clickDeleteInTable(SampleData.bd_branchId);
@@ -229,8 +239,8 @@ public class TestExecution extends BaseClass {
 		Thread.sleep(2000);
 		alert.dismiss();
 	}
-	
-	@Test(priority = 18)
+
+	@Test(priority = 18, groups = { "update", "role" })
 	public void updateRole() throws InterruptedException {
 		roleDetailsPageObj = adminHomePageObj.clickRoles();
 		roleUpdationPageObj = roleDetailsPageObj.clickEditInTable(SampleData.ru_roleId);
@@ -238,10 +248,10 @@ public class TestExecution extends BaseClass {
 		alert = roleUpdationPageObj.updateRoleClick();
 		System.out.println(alert.getText());
 		Thread.sleep(2000);
-        alert.accept();
+		alert.accept();
 	}
 
-	@Test(priority = 19)
+	@Test(priority = 19, groups = { "role", "delete" })
 	public void deleteRole() throws InterruptedException {
 		roleDetailsPageObj = adminHomePageObj.clickRoles();
 		alert = roleDetailsPageObj.clickDeleteInTable(SampleData.rd_roleId);
@@ -249,9 +259,8 @@ public class TestExecution extends BaseClass {
 		Thread.sleep(2000);
 		alert.dismiss();
 	}
-	
-	
-	@Test(priority = 20)
+
+	@Test(priority = 20, groups = { "employee", "update" })
 	public void updateEmployee() throws InterruptedException {
 		employeeDetailsPageObj = adminHomePageObj.clickEmployees();
 		employeeUpdationPageObj = employeeDetailsPageObj.clickEditInTable(SampleData.empu_empId);
@@ -259,10 +268,10 @@ public class TestExecution extends BaseClass {
 		alert = employeeUpdationPageObj.updateEmpClick();
 		System.out.println(alert.getText());
 		Thread.sleep(2000);
-        alert.accept();
+		alert.accept();
 	}
 
-	@Test(priority = 21)
+	@Test(priority = 21, groups = { "employee", "delete" })
 	public void deleteEmployee() throws InterruptedException {
 		employeeDetailsPageObj = adminHomePageObj.clickEmployees();
 		alert = employeeDetailsPageObj.clickDeleteInTable(SampleData.empd_empId);
@@ -271,13 +280,7 @@ public class TestExecution extends BaseClass {
 		alert.accept();
 		System.out.println(driver.switchTo().alert().getText());
 		driver.switchTo().alert().accept();
-		
-	}
-	
 
-	@Test(priority = 30)
-	public void tearDown() {
-		closeBrowser();
 	}
 
 }

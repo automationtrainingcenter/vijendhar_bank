@@ -81,5 +81,11 @@ public class AdminHomePage {
 		this.employees.click();
 		return PageFactory.initElements(driver, EmployeeDetailsPage.class);
 	}
+	
+//	this is validation method
+	public boolean validateLogin() {
+		return this.logout.isDisplayed() && driver.getTitle().equals("KEXIM BANK");
+	}
+	
 
 }

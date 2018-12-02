@@ -2,13 +2,18 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="basic suite">
 	<test name="basic suite">
+		<groups>
+			<define name="branch reset">
+				<include name="branch"></include>
+				<include name="reset"></include>
+			</define>
+			
+			<run>
+				<include name="branch reset"></include>
+			</run>
+		</groups>
 		<classes>
 			<class name="in.srssprojects.keximbank.BasicExecution">
-				<methods>
-					<include name="launch"></include>
-					<include name="login2"></include>
-				   <include name="updateRole"></include>
-				</methods>
 			</class>
 		</classes>
 	</test>
