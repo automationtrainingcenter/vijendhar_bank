@@ -74,7 +74,8 @@ public class BranchCreationPage {
 
 	// select country
 	public void country(String country) {
-		new Select(this.country).selectByVisibleText(country);
+		Select c = new Select(this.country);
+		c.selectByVisibleText(country);
 	}
 
 	// select state

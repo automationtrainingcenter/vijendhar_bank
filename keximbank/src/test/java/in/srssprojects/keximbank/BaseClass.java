@@ -9,6 +9,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 
 public class BaseClass {
 	WebDriver driver;
@@ -39,10 +40,26 @@ public class BaseClass {
 		default:
 			throw new RuntimeException("browser name is invalid");
 		}
+		EventFiringWebDriver edriver = new EventFiringWebDriver(driver);
+		LogListener listener = new LogListener();
+		edriver.register(listener);
+		driver = edriver;
 		driver.get(url);
 		driver.manage().window().maximize();
 		driver.manage().timeouts().pageLoadTimeout(10, TimeUnit.SECONDS);
 		return new BankHomePage(driver);
+	}
+	
+	public BankHomePage launchBrowser(String brName, String url) {
+		BankHomePage obj = null;
+		if(brName.equalsIgnoreCase("chrome")) {
+			obj = launchBrowser(BrowserName.chrome, url);
+		}else if(brName.equalsIgnoreCase("firefox")){
+			obj = launchBrowser(BrowserName.firefox, url);
+		}else {
+			throw new RuntimeException("browser name is invalid");
+		}
+		return obj;
 	}
 
 	public void closeBrowser() {
