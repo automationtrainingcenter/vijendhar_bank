@@ -5,13 +5,13 @@ import org.testng.annotations.BeforeClass;
 
 public class BasicExecution extends TestExecution {
 
-	@BeforeClass(groups = { "branch", "search", "create", "role", "createCancel", "reset", "employee" , "cancel" , "invalid", "update", "delete"})
+	@BeforeClass(groups = { "branch", "data_driven","search", "create", "role", "createCancel", "reset", "employee" , "cancel" , "invalid", "update", "delete"})
 	public void launch() {
 		bankHomePageObj = launchBrowser(BrowserName.chrome, "http://srssprojects.in");
 
 	}
 
-	@AfterClass(groups = { "branch", "search", "create", "role", "createCancel", "reset", "employee" , "cancel" , "invalid", "update", "delete"})
+	@AfterClass(groups = { "branch","data_driven", "search", "create", "role", "createCancel", "reset", "employee" , "cancel" , "invalid", "update", "delete"})
 	public void tearDown() {
 		closeBrowser();
 	}

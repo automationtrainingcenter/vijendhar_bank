@@ -23,7 +23,7 @@ public class BaseClass {
 	 * @return
 	 *
 	 */
-	public String getFilePath(String folderName, String fileName) {
+	public static String getFilePath(String folderName, String fileName) {
 		return System.getProperty("user.dir") + File.separator + folderName + File.separator + fileName;
 	}
 

@@ -2,7 +2,12 @@ package in.srssprojects.keximbank;
 
 import org.openqa.selenium.Alert;
 import org.testng.Assert;
+import org.testng.Reporter;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import utilities.DataProviderHelper;
+import utilities.ExcelHelper;
 
 public class TestExecution extends BaseClass {
 	BankHomePage bankHomePageObj;
@@ -18,6 +23,8 @@ public class TestExecution extends BaseClass {
 	EmployeeUpdationPage employeeUpdationPageObj;
 	Alert alert;
 	String alertText;
+	ExcelHelper excel;
+
 	public void fillBranchCrationForm(String bname, String address1, String zipcode, String country, String state,
 			String city) {
 		branchCreationPageObj.branchName(bname);
@@ -27,7 +34,7 @@ public class TestExecution extends BaseClass {
 		branchCreationPageObj.state(state);
 		branchCreationPageObj.city(city);
 	}
-	
+
 	public String acceptAlert() {
 		alert = driver.switchTo().alert();
 		String alertText = alert.getText();
@@ -36,8 +43,8 @@ public class TestExecution extends BaseClass {
 		return alertText;
 	}
 
-	@Test(priority = 1, groups = { "branch", "search", "create", "role", "createCancel", "reset", "employee", "cancel",
-			"invalid", "update", "delete" })
+	@Test(priority = 1, groups = { "branch", "search", "data_driven", "create", "role", "createCancel", "reset",
+			"employee", "cancel", "invalid", "update", "delete" })
 	public void login2() {
 		bankHomePageObj.fillUserName(SampleData.username);
 		bankHomePageObj.fillPassword(SampleData.password);
@@ -61,7 +68,7 @@ public class TestExecution extends BaseClass {
 		branchDetailsPageObj.selectState(SampleData.bs_state);
 		branchDetailsPageObj.selectCity(SampleData.bs_city);
 		branchDetailsPageObj.clickSearch();
-		
+
 	}
 
 	@Test(priority = 3, groups = { "branch", "create" })
@@ -70,8 +77,9 @@ public class TestExecution extends BaseClass {
 		branchCreationPageObj = branchDetailsPageObj.clickNewBranch();
 		fillBranchCrationForm(SampleData.bc_branchName, SampleData.bc_branchAddress, SampleData.bc_branchZipcode,
 				SampleData.bc_branchCountry, SampleData.bc_branchState, SampleData.bc_branchCity);
+		branchCreationPageObj.submit();
 		alertText = acceptAlert();
-		Assert.assertTrue(alertText.contains("successfully"));
+		Assert.assertTrue(alertText.contains("Sucessfully"));
 	}
 
 	@Test(priority = 4, groups = { "branch", "create", "invalid" })
@@ -80,6 +88,7 @@ public class TestExecution extends BaseClass {
 		branchCreationPageObj = branchDetailsPageObj.clickNewBranch();
 		fillBranchCrationForm(SampleData.bc_branchName, SampleData.bc_branchAddress, SampleData.bc_branchZipcode,
 				SampleData.bc_branchCountry, SampleData.bc_branchState, SampleData.bc_branchCity);
+		branchCreationPageObj.submit();
 		alertText = acceptAlert();
 		Assert.assertTrue(alertText.contains("already"));
 	}
@@ -99,7 +108,7 @@ public class TestExecution extends BaseClass {
 		fillBranchCrationForm(SampleData.bc_branchName, SampleData.bc_branchAddress, SampleData.bc_branchZipcode,
 				SampleData.bc_branchCountry, SampleData.bc_branchState, SampleData.bc_branchCity);
 		branchCreationPageObj.clickReset();
-		
+
 	}
 
 	@Test(priority = 7, groups = { "branch", "cancel" })
@@ -108,6 +117,42 @@ public class TestExecution extends BaseClass {
 		branchCreationPageObj = branchDetailsPageObj.clickNewBranch();
 //		fillBranchCrationForm(SampleData.bc_branchName, SampleData.bc_branchAddress, SampleData.bc_branchZipcode, SampleData.bc_branchCountry, SampleData.bc_branchState, SampleData.bc_branchCity);
 		branchCreationPageObj.clickCancel();
+	}
+
+	@Test(priority = 22, groups = { "branch", "data_driven_1" })
+	public void branchCreationWithMultipleData() {
+		excel = new ExcelHelper();
+		excel.setExcelToRead("resources", "testdata.xls", "branchdata");
+		int nor = excel.getRowCount();
+		for (int i = 1; i < nor; i++) {
+			String bname = excel.readCellData(i, 0);
+			String address1 = excel.readCellData(i, 1);
+			String zipcode = excel.readCellData(i, 2);
+			String country = excel.readCellData(i, 3);
+			String state = excel.readCellData(i, 4);
+			String city = excel.readCellData(i, 5);
+			System.out.println(bname + "\t" + address1 + "\t" + zipcode + "\t" + country + "\t" + state + "\t" + city);
+			branchDetailsPageObj = adminHomePageObj.clickBranches();
+			branchCreationPageObj = branchDetailsPageObj.clickNewBranch();
+			fillBranchCrationForm(bname, address1, zipcode, country, state, city);
+//			branchCreationPageObj.submit();
+//			alertText = acceptAlert();
+//			Assert.assertTrue(alertText.contains("Sucessfully"));
+		}
+	}
+
+	@Test(priority = 23, groups = { "branch",
+			"data_driven" }, dataProviderClass = DataProviderHelper.class, dataProvider = "branch_data")
+	public void branchCreationWithMultipleDataWithDP(String bname, String address1, String zipcode, String country,
+			String state, String city) {
+//		System.out.println(bname + "\t" + address1 + "\t" + zipcode + "\t" + country + "\t" + state + "\t" + city);
+		branchDetailsPageObj = adminHomePageObj.clickBranches();
+		branchCreationPageObj = branchDetailsPageObj.clickNewBranch();
+		fillBranchCrationForm(bname, address1, zipcode, country, state, city);
+//		branchCreationPageObj.submit();
+//		alertText = acceptAlert();
+//		Assert.assertTrue(alertText.contains("Sucessfully"));
+
 	}
 
 	@Test(priority = 8)
@@ -125,6 +170,19 @@ public class TestExecution extends BaseClass {
 		alert = roleCreationPageObj.roleSubmit();
 		System.out.println(alert.getText());
 		alert.accept();
+
+	}
+
+	@Test(priority = 24, groups = { "role", "create", "data_driven" }, dataProviderClass = DataProviderHelper.class, dataProvider
+			= "role_data")
+	public void roleCreationWithDP(String roleName, String roleType) {
+		roleDetailsPageObj = adminHomePageObj.clickRoles();
+		roleCreationPageObj = roleDetailsPageObj.roleClick();
+		roleCreationPageObj.fillRoleName(roleName);
+//		roleCreationPageObj.fillRoleDesc(SampleData.rc_roleDesc);
+		roleCreationPageObj.selectRoleType(roleType);
+//		alert = roleCreationPageObj.roleSubmit();
+//		alert.accept();
 
 	}
 
