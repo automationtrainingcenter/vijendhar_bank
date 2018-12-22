@@ -89,5 +89,13 @@ public class BranchDetailsPage {
 		TableHelper.handleTable(this.branchTable, branchId, "delete");
 		return driver.switchTo().alert();
 	}
+//		this is validation method
+		public boolean validateBranchSearch() {
+		// TODO Auto-generated method stub
+		 return this.search.isDisplayed() && driver.getTitle().equals("admin_banker_master");
+	}
+
+		
+		
 
 }

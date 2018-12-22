@@ -70,6 +70,11 @@ public class RoleCreationPage {
 		this.cancel.click();
 		return PageFactory.initElements(driver, RoleDetailsPage.class);
 	}
+
+	public boolean validateRoleCreation() {
+		// TODO Auto-generated method stub
+		return this.roleName.isDisplayed() && driver.getTitle().equals("Admin_Roles_details");
+	}
 }
 
 

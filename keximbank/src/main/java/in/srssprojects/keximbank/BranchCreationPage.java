@@ -109,4 +109,9 @@ public class BranchCreationPage {
 		this.roles.click();
 		return PageFactory.initElements(driver, RoleDetailsPage.class);
 	}
+
+	public boolean validateBranchCreation() {
+		// TODO Auto-generated method stub
+		return this.branchName.isDisplayed() && driver.getTitle().equals("admin_banker_master");
+	}
 }

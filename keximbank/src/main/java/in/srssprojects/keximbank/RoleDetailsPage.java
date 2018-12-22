@@ -46,4 +46,9 @@ public class RoleDetailsPage {
 			return driver.switchTo().alert();
 		
 	}
+
+		public boolean validateRoleDetails() {
+			// TODO Auto-generated method stub
+			return this.newRole.isDisplayed() && driver.getTitle().equals("Admin_Roles_details");
+		}
 }

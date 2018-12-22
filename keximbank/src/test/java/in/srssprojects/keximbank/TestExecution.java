@@ -68,6 +68,8 @@ public class TestExecution extends BaseClass {
 		branchDetailsPageObj.selectState(SampleData.bs_state);
 		branchDetailsPageObj.selectCity(SampleData.bs_city);
 		branchDetailsPageObj.clickSearch();
+		Assert.assertTrue(branchDetailsPageObj.validateBranchSearch());
+		
 
 	}
 
@@ -108,6 +110,8 @@ public class TestExecution extends BaseClass {
 		fillBranchCrationForm(SampleData.bc_branchName, SampleData.bc_branchAddress, SampleData.bc_branchZipcode,
 				SampleData.bc_branchCountry, SampleData.bc_branchState, SampleData.bc_branchCity);
 		branchCreationPageObj.clickReset();
+		Assert.assertTrue(branchCreationPageObj.validateBranchCreation());
+		
 
 	}
 
@@ -117,6 +121,7 @@ public class TestExecution extends BaseClass {
 		branchCreationPageObj = branchDetailsPageObj.clickNewBranch();
 //		fillBranchCrationForm(SampleData.bc_branchName, SampleData.bc_branchAddress, SampleData.bc_branchZipcode, SampleData.bc_branchCountry, SampleData.bc_branchState, SampleData.bc_branchCity);
 		branchCreationPageObj.clickCancel();
+		Assert.assertTrue(branchDetailsPageObj.validateBranchSearch());
 	}
 
 	@Test(priority = 22, groups = { "branch", "data_driven_1" })
@@ -149,6 +154,8 @@ public class TestExecution extends BaseClass {
 		branchDetailsPageObj = adminHomePageObj.clickBranches();
 		branchCreationPageObj = branchDetailsPageObj.clickNewBranch();
 		fillBranchCrationForm(bname, address1, zipcode, country, state, city);
+		Assert.assertTrue(branchCreationPageObj.validateBranchCreation());
+		
 //		branchCreationPageObj.submit();
 //		alertText = acceptAlert();
 //		Assert.assertTrue(alertText.contains("Sucessfully"));
@@ -158,6 +165,7 @@ public class TestExecution extends BaseClass {
 	@Test(priority = 8)
 	public void roleDetails() {
 		roleDetailsPageObj = branchCreationPageObj.home();
+		Assert.assertTrue(roleDetailsPageObj.validateRoleDetails());
 	}
 
 	@Test(priority = 9, groups = { "role", "create" })
@@ -170,7 +178,7 @@ public class TestExecution extends BaseClass {
 		alert = roleCreationPageObj.roleSubmit();
 		System.out.println(alert.getText());
 		alert.accept();
-
+		Assert.assertTrue(alertText.contains("Sucessfully"));
 	}
 
 	@Test(priority = 24, groups = { "role", "create", "data_driven" }, dataProviderClass = DataProviderHelper.class, dataProvider
@@ -183,7 +191,7 @@ public class TestExecution extends BaseClass {
 		roleCreationPageObj.selectRoleType(roleType);
 //		alert = roleCreationPageObj.roleSubmit();
 //		alert.accept();
-
+		Assert.assertTrue(alertText.contains("already"));
 	}
 
 	@Test(priority = 10, groups = { "role", "create", "invalid" })
@@ -196,6 +204,8 @@ public class TestExecution extends BaseClass {
 		alert = roleCreationPageObj.roleSubmit();
 		System.out.println(alert.getText());
 		alert.accept();
+		Assert.assertTrue(alertText.contains("already"));
+		
 	}
 
 	@Test(priority = 11, groups = { "role", "create", "invalid" })
@@ -205,6 +215,7 @@ public class TestExecution extends BaseClass {
 		alert = roleCreationPageObj.roleSubmit();
 		System.out.println(alert.getText());
 		alert.accept();
+		Assert.assertTrue(alertText.contains("fill"));
 	}
 
 	@Test(priority = 12, groups = { "role", "reset" })
@@ -215,6 +226,7 @@ public class TestExecution extends BaseClass {
 		roleCreationPageObj.fillRoleDesc(SampleData.rc_roleDesc);
 		roleCreationPageObj.selectRoleType(SampleData.rc_roleType);
 		roleCreationPageObj.clickReset();
+		Assert.assertTrue(roleCreationPageObj.validateRoleCreation());
 	}
 
 	@Test(priority = 10, groups = { "role", "cancel" })
@@ -223,7 +235,7 @@ public class TestExecution extends BaseClass {
 		roleCreationPageObj = roleDetailsPageObj.roleClick();
 		roleCreationPageObj.fillRoleName(SampleData.rc_roleName);
 		roleCreationPageObj.clickCancel();
-
+		Assert.assertTrue(roleCreationPageObj.validateRoleCreation());
 	}
 
 	@Test(priority = 11, groups = { "employee", "create" })
@@ -237,6 +249,7 @@ public class TestExecution extends BaseClass {
 		alert = employeeCreationPageObj.empClick();
 		System.out.println(alert.getText());
 		alert.accept();
+		Assert.assertTrue(alertText.contains("Sucessfully"));
 	}
 
 	@Test(priority = 12, groups = { "employee", "create", "invalid" })
@@ -250,6 +263,7 @@ public class TestExecution extends BaseClass {
 		alert = employeeCreationPageObj.empClick();
 		System.out.println(alert.getText());
 		alert.accept();
+		Assert.assertTrue(alertText.contains("Already"));
 	}
 
 	@Test(priority = 13, groups = { "employee", "create", "invalid" })
@@ -269,6 +283,8 @@ public class TestExecution extends BaseClass {
 		employeeCreationPageObj.selectEmpBranch(SampleData.ec_empBranch);
 		employeeCreationPageObj.selectEmpRole(SampleData.ec_empRole);
 		employeeCreationPageObj.clickReset();
+		Assert.assertTrue(employeeCreationPageObj.validateEmpCreation());
+		
 	}
 
 	@Test(priority = 15, groups = { "employee", "cancel" })
@@ -276,6 +292,7 @@ public class TestExecution extends BaseClass {
 		employeeDetailsPageObj = adminHomePageObj.clickEmployees();
 		employeeCreationPageObj = employeeDetailsPageObj.employeeClick();
 		employeeCreationPageObj.clickCancel();
+		Assert.assertTrue(employeeCreationPageObj.validateEmpCreation());
 	}
 
 	@Test(priority = 16, groups = { "branch", "update" })
@@ -287,6 +304,7 @@ public class TestExecution extends BaseClass {
 		System.out.println(alert.getText());
 		Thread.sleep(2000);
 		alert.accept();
+		Assert.assertTrue(alertText.contains("Sucessfully"));
 	}
 
 	@Test(priority = 17, groups = { "branch", "delete" })
@@ -296,6 +314,7 @@ public class TestExecution extends BaseClass {
 		System.out.println(alert.getText());
 		Thread.sleep(2000);
 		alert.dismiss();
+		Assert.assertTrue(alertText.contains("Sucessfully"));
 	}
 
 	@Test(priority = 18, groups = { "update", "role" })
@@ -307,6 +326,7 @@ public class TestExecution extends BaseClass {
 		System.out.println(alert.getText());
 		Thread.sleep(2000);
 		alert.accept();
+		Assert.assertTrue(alertText.contains("Sucessfully"));
 	}
 
 	@Test(priority = 19, groups = { "role", "delete" })
@@ -316,6 +336,7 @@ public class TestExecution extends BaseClass {
 		System.out.println(alert.getText());
 		Thread.sleep(2000);
 		alert.dismiss();
+		Assert.assertTrue(alertText.contains("Sucessfully"));
 	}
 
 	@Test(priority = 20, groups = { "employee", "update" })
@@ -327,6 +348,7 @@ public class TestExecution extends BaseClass {
 		System.out.println(alert.getText());
 		Thread.sleep(2000);
 		alert.accept();
+		Assert.assertTrue(alertText.contains("Sucessfully"));
 	}
 
 	@Test(priority = 21, groups = { "employee", "delete" })
@@ -338,6 +360,7 @@ public class TestExecution extends BaseClass {
 		alert.accept();
 		System.out.println(driver.switchTo().alert().getText());
 		driver.switchTo().alert().accept();
+		Assert.assertTrue(alertText.contains("Sucessfully"));
 
 	}
 

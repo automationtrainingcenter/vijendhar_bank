@@ -78,4 +78,9 @@ public class EmployeeCreationPage {
 		this.cancel.click();
 		return PageFactory.initElements(driver, EmployeeDetailsPage.class);
 	}
+
+	public boolean validateEmpCreation() {
+		// TODO Auto-generated method stub
+		return this.empName.isDisplayed() && driver.getTitle().equals("Admin_Emp_details");
+	}
 }
