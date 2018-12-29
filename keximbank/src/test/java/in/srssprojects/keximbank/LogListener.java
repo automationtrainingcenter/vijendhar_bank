@@ -7,21 +7,26 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.events.WebDriverEventListener;
 import org.testng.Reporter;
 
-public class LogListener implements WebDriverEventListener{
+import com.relevantcodes.extentreports.LogStatus;
+
+public class LogListener extends TestExecution implements WebDriverEventListener{
 
 	@Override
 	public void beforeAlertAccept(WebDriver driver) {
 		Reporter.log("alert came "+driver.switchTo().alert().getText());
+		test.log(LogStatus.INFO, "alert came "+driver.switchTo().alert().getText());
 	}
 
 	@Override
 	public void afterAlertAccept(WebDriver driver) {
 		Reporter.log("alert accepted");
+		test.log(LogStatus.INFO, "alert accepted");
 	}
 
 	@Override
 	public void afterAlertDismiss(WebDriver driver) {
 		Reporter.log("alert came "+driver.switchTo().alert().getText());
+		test.log(LogStatus.INFO, "alert came "+driver.switchTo().alert().getText());
 	}
 
 	@Override
@@ -86,6 +91,7 @@ public class LogListener implements WebDriverEventListener{
 	@Override
 	public void afterFindBy(By by, WebElement element, WebDriver driver) {
 		Reporter.log("element located successfully with "+by);
+		test.log(LogStatus.INFO, "element located successfully with "+by);
 	}
 
 	@Override
@@ -97,6 +103,7 @@ public class LogListener implements WebDriverEventListener{
 	@Override
 	public void afterClickOn(WebElement element, WebDriver driver) {
 		Reporter.log("clicked on elemnent successfully");
+		test.log(LogStatus.INFO, "clicked on elemnent successfully");
 	}
 
 	@Override
@@ -108,6 +115,7 @@ public class LogListener implements WebDriverEventListener{
 	@Override
 	public void afterChangeValueOf(WebElement element, WebDriver driver, CharSequence[] keysToSend) {
 		Reporter.log("element value changed succefully to "+keysToSend.toString());
+		test.log(LogStatus.INFO, "element value changed");
 	}
 
 	@Override
